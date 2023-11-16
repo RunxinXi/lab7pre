@@ -56,6 +56,8 @@ public class Lab7_Registry_UnitTest extends LabBaseUnitTest {
 		parameters.add(new String[] {"999-1234", "1"});
 		parameters.add(new String[] {"999-2345", "2"});
 		parameters.add(new String[] {"999-3456", "3"});
+	    parameters.add(new String[] {"999-4567", "4"}); // New test data
+	    parameters.add(new String[] {"999-5678", "5"}); // New test data
 		return parameters;
 	}
 	/* END OF PARAMETERIZED CODE */
@@ -181,4 +183,55 @@ public class Lab7_Registry_UnitTest extends LabBaseUnitTest {
 		assertTrue(registeredItems.size() == requestedItems.size());
 	}
 	
+	@Test
+	public void checkQueryResultsRecordedInDB() throws SQLException {
+	    // Start the process
+	    startProcess();
+
+	    // Check records in Results table match the expected query results
+	    Statement statement = dbCon.createStatement();
+	    ResultSet resultSet = statement.executeQuery("SELECT * FROM Results");
+
+	    // Assuming you have a method to get expected results
+	    List<String[]> expectedResults = getExpectedResults(); // Implement this method
+
+	    while (resultSet.next()) {
+	        int id = resultSet.getInt("id");
+	        String owner = resultSet.getString("owner");
+
+	        // Find the expected result for this id and compare
+	        boolean found = false;
+	        for (String[] expectedResult : expectedResults) {
+	            if (Integer.parseInt(expectedResult[0]) == id && expectedResult[1].equals(owner)) {
+	                found = true;
+	                break;
+	            }
+	        }
+	        assertTrue(found);
+	    }
+	}
+
+	private List<String[]> getExpectedResults() {
+	    // Implement logic to get expected results
+	    // Example: return Arrays.asList(new String[]{"1", "owner1"}, new String[]{"2", "owner2"});
+	    return new ArrayList<>();
+	}
+	
+	@Test
+	public void printActivityDetails() {
+	    startProcess();
+
+	    HistoryService historyService = flowableContext.getHistoryService();
+	    List<HistoricActivityInstance> activities = historyService.createHistoricActivityInstanceQuery()
+	                                                               .processInstanceId(processInstance.getId())
+	                                                               .finished()
+	                                                               .list();
+
+	    for (HistoricActivityInstance activity : activities) {
+	        System.out.println("Activity Name: " + activity.getActivityName() + ", End Time: " + activity.getEndTime());
+	    }
+	}
+
+
+
 }

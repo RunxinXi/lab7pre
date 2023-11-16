@@ -138,6 +138,10 @@
       <bpmndi:BPMNShape bpmnElement="endevent2" id="BPMNShape_endevent2">
         <omgdc:Bounds height="35.0" width="35.0" x="1420.0" y="133.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="messageflow1" id="BPMNEdge_messageflow1">
+        <omgdi:waypoint x="1005.0" y="150.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1040.0" y="151.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
         <omgdi:waypoint x="147.0" y="115.0"></omgdi:waypoint>
         <omgdi:waypoint x="147.0" y="146.0"></omgdi:waypoint>
